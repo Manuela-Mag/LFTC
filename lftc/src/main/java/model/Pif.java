@@ -8,9 +8,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class Pif {
-    public static final List<String> separators = Collections.unmodifiableList(Arrays.asList(";", " ", ","));
-    public static final List<String> operators = Collections.unmodifiableList(Arrays.asList("+", "-", "*", "/", "<", ">", "<=", "=>", "=", "==", "!="));
-    public static final List<String> reservedWords = Collections.unmodifiableList(Arrays.asList("readFromKeyboard", "repeat", "until", "char", "const", "int", "if", "else", "check", "then", "write", "while"));
+    public static final List<String> separators = Collections.unmodifiableList(Arrays.asList(";", " ", ",", "{", "}", "(", ")"));
+    public static final List<String> operators = Collections.unmodifiableList(Arrays.asList("+", "-", "%", "++", "*", "/", ">", "<", "<=", "=>", "=", "==", "!="));
+    public static final List<String> reservedWords = Collections.unmodifiableList(Arrays.asList("readFromKeyboard", "repeat", "until", "char", "const", "int", "if", "else", "check", "then", "write", "while", "true", "false"));
+
     public static final List<String> constants = Collections.unmodifiableList(Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"));
 
     private List<Pair<String, String>> pif;
