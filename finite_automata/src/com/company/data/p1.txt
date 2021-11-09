@@ -1,0 +1,11 @@
+&number = readFromKeyboard();
+&index = 2;
+&isPrime = false;
+repeat {
+	check(&number % &index == 0)
+		then
+ 			&isPrime = true;
+		else
+			&index ++;
+}
+until(&isPrime)
