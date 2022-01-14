@@ -1,0 +1,97 @@
+%{
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+
+int lines = 1;
+int STPosition = 0;
+char ST[100000] = "";
+char PIF[100000] = "";
+
+void addToST(char* token){
+    strcat(ST, token);
+    strcat(ST, "\n");
+}
+
+void addToPIF(char* token){
+    strcat(PIF, token);
+    strcat(PIF, "\n");
+}
+%}
+
+%option noyywrap
+%option caseless
+
+DIGIT 		[0-9]
+WORD		\"[a-zA-Z0-9]*\"
+NUMBER		[+-]?[1-9][0-9]*|0$
+CHARACTER 	\'[a-zA-Z0-9]\'
+CONST		{WORD}|{NUMBER}|{CHARACTER}
+ID 		 [a-zA-Z][a-zA-Z0-9_]*
+
+
+%%
+cst {addToPIF(yytext); printf("Reserved word: %s\n", yytext);}
+verify {addToPIF(yytext); printf("Reserved word: %s\n", yytext);}
+yes {addToPIF(yytext); printf("Reserved word: %s\n", yytext);}
+no {addToPIF(yytext); printf("Reserved word: %s\n", yytext);}
+print {addToPIF(yytext); printf("Reserved word: %s\n", yytext);}
+var  {addToPIF(yytext); printf("Reserved word: %s\n", yytext);}
+read {addToPIF(yytext); printf("Reserved word: %s\n", yytext);}
+return {addToPIF(yytext); printf("Reserved word: %s\n", yytext);}
+list {addToPIF(yytext); printf("Reserved word: %s\n", yytext);}
+go {addToPIF(yytext); printf("Reserved word: %s\n", yytext);}
+as {addToPIF(yytext); printf("Reserved word: %s\n", yytext);}
+with {addToPIF(yytext); printf("Reserved word: %s\n", yytext);}
+
+{ID}                { addToST(yytext); printf("Identifier: %s\n", yytext); }
+{CONST}                  { addToST(yytext); printf("Constant: %s\n", yytext); }
+
+"("                         { addToPIF(yytext); printf("Separator: %s\n", yytext); }
+")"                         { addToPIF(yytext); printf("Separator: %s\n", yytext); }
+"["                         { addToPIF(yytext); printf("Separator: %s\n", yytext); }
+"]"                         { addToPIF(yytext); printf("Separator: %s\n", yytext); }
+"{"                         { addToPIF(yytext); printf("Separator: %s\n", yytext); }
+"}"                         { addToPIF(yytext); printf("Separator: %s\n", yytext); }
+":"                         { addToPIF(yytext); printf("Separator: %s\n", yytext); }
+";"                         { addToPIF(yytext); printf("Separator: %s\n", yytext); }
+"."                         { addToPIF(yytext); printf("Separator: %s\n", yytext); }
+","                         { addToPIF(yytext); printf("Separator: %s\n", yytext); }
+"+"                         { addToPIF(yytext); printf("Operator: %s\n", yytext); }
+"-"                         { addToPIF(yytext); printf("Operator: %s\n", yytext); }
+"*"                         { addToPIF(yytext); printf("Operator: %s\n", yytext); }
+"/"                         { addToPIF(yytext); printf("Operator: %s\n", yytext); }
+"="                         { addToPIF(yytext); printf("Operator: %s\n", yytext); }
+"**"                        { addToPIF(yytext); printf("Operator: %s\n", yytext); }
+"//"                        { addToPIF(yytext); printf("Operator: %s\n", yytext); }
+"%"                         { addToPIF(yytext); printf("Operator: %s\n", yytext); }
+"<"                         { addToPIF(yytext); printf("Operator: %s\n", yytext); }
+"<="                        { addToPIF(yytext); printf("Operator: %s\n", yytext); }
+"=="                        { addToPIF(yytext); printf("Operator: %s\n", yytext); }
+">="                        { addToPIF(yytext); printf("Operator: %s\n", yytext); }
+">"                         { addToPIF(yytext); printf("Operator: %s\n", yytext); }
+"!="                        { addToPIF(yytext); printf("Operator: %s\n", yytext); }
+"!"                         { addToPIF(yytext); printf("Operator: %s\n", yytext); }
+"&&"                        { addToPIF(yytext); printf("Operator: %s\n", yytext); }
+"||"                        { addToPIF(yytext); printf("Operator: %s\n", yytext); }
+">>"                        { addToPIF(yytext); printf( "Operator: %s\n", yytext );}
+"<<"                        { addToPIF(yytext); printf( "Operator: %s\n", yytext );}
+[ \t]                       { }
+[\n]                        { lines++; }
+<<EOF>>                     { printf("Symbol Table: \n%s", ST); printf("\nPIF: \n%s", PIF); return 0; }
+
+.                           { printf("Error at line: %d\n", lines); }
+
+%%
+
+int main (argc, argv)
+int argc;
+char **argv;
+{
+    ++argv, --argc;
+    if (argc > 0)
+    yyin = fopen(argv[0], "r");
+    else
+    yyin = stdin;
+    yylex();
+}
